@@ -1,0 +1,9 @@
+<button class="page_button flex center"  bindtap="leaveButton"  data-index="1"  style="padding:0; width: 630rpx;">
+                请假
+            </button>  <button class="page_button flex center"  bindtap="leaveButton" data-index="2" style="padding:0; width: 630rpx;">
+                销假
+            </button>
+
+            <!-- tabbar -->
+<tabbar tabbar_current="1"></tabbar>
+<!-- tabbar -->

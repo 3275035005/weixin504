@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.teaching.mapper.TtLeaveMapper">
+
+    <select id="pageQuery" resultType="com.cn.teaching.entity.TtLeave">
+        select
+        tl.*, tu.name AS userName
+        from tt_leave AS tl
+        left join tt_user AS tu on tl.user_id = tu.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND tl.user_id = #{userId}
+            </if>
+            <if test="type != null and type != ''">
+                AND tl.type = #{type}
+            </if>
+            <if test="status != null and status != ''">
+                AND tl.status = #{status}
+            </if>
+        </where>
+        order by tl.create_time desc
+    </select>
+</mapper>

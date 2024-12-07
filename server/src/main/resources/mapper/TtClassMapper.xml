@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.teaching.mapper.TtClassMapper">
+
+    <select id="pageQuery" resultType="com.cn.teaching.entity.TtClass">
+        select
+        *
+        from tt_class
+        <where>
+            <if test="title != null and title != ''">
+                AND title like "%" #{title} "%"
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+</mapper>

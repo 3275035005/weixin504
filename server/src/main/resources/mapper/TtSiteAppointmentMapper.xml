@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.teaching.mapper.TtSiteAppointmentMapper">
+
+    <select id="getSiteAppointmentInfo" resultType="com.cn.teaching.entity.TtSiteAppointment">
+        select
+            tsa.*, tu.name AS userName, ts.title AS siteName
+        from tt_site_appointment AS tsa
+        left join tt_user AS tu on tsa.user_id = tu.id
+        left join tt_site AS ts on tsa.site_id = ts.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND tsa.user_id = #{userId}
+            </if>
+            <if test="status != null and status != ''">
+                AND tsa.status = #{status}
+            </if>
+        </where>
+        order by tsa.create_time desc
+    </select>
+</mapper>

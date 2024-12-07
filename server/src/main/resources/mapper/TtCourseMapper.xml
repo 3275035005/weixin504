@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.teaching.mapper.TtCourseMapper">
+
+    <select id="pageQuery" resultType="com.cn.teaching.entity.TtCourse">
+        select
+        tc.*, tcc.title AS categoryName, tt.name AS teacherName
+        from tt_course AS tc
+        left join tt_course_category AS tcc on tc.category_id = tcc.id
+        left join tt_teacher AS tt on tc.teacher_id = tt.id
+        <where>
+            <if test="title != null and title != ''">
+                AND tc.title like "%" #{title} "%"
+            </if>
+            <if test="teacherName != null and teacherName != ''">
+                AND tc.teacher_name like "%" #{teacherName} "%"
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND tc.category_id = #{categoryId}
+            </if>
+        </where>
+        order by tc.create_time desc
+    </select>
+    <select id="getCourseById" resultType="com.cn.teaching.entity.TtCourse">
+        select
+        tc.*, tcc.title AS categoryName, tt.name AS teacherName
+        from tt_course AS tc
+        left join tt_course_category AS tcc on tc.category_id = tcc.id
+        left join tt_teacher AS tt on tc.teacher_id = tt.id
+        <where>
+            <if test="id != null and id != ''">
+                AND tc.id = #{id}
+            </if>
+        </where>
+        order by tc.create_time desc
+    </select>
+</mapper>

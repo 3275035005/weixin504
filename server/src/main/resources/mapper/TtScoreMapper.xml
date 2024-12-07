@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.teaching.mapper.TtScoreMapper">
+
+    <select id="pageQuery" resultType="com.cn.teaching.entity.TtScore">
+        select
+        ts.*, tu.name AS userName, tc.title AS courseName, tca.id AS appointmentId
+        from tt_score AS ts
+        left join tt_user AS tu on ts.user_id = tu.id
+        left join tt_course AS tc on ts.course_id = tc.id
+        left join tt_course_appointment AS tca on ts.course_id = tca.course_id and ts.user_id = tca.user_id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND ts.user_id = #{userId}
+            </if>
+            <if test="courseId != null and courseId != ''">
+                AND ts.course_id = #{courseId}
+            </if>
+        </where>
+        order by ts.create_time asc
+    </select>
+    <select id="getScoreInfoByUserId" resultType="com.cn.teaching.entity.TtScore">
+        select
+        ts.*, tu.name AS userName, tc.title AS courseName
+        from tt_score AS ts
+        left join tt_user AS tu on ts.user_id = tu.id
+        left join tt_course AS tc on ts.course_id = tc.id
+        <where>
+            <if test="id != null and id != ''">
+                AND ts.user_id = #{id}
+            </if>
+        </where>
+        order by ts.create_time asc
+    </select>
+    <select id="getNotScoreInfo" resultType="com.cn.teaching.entity.TtScore">
+
+        SELECT
+            ts.*,
+            tu.NAME AS userName,
+            tc.title AS courseName
+        from
+            (
+                SELECT
+                    *
+                FROM
+                    tt_course_appointment
+                WHERE
+                        status = '1' and
+                        id NOT IN (
+                        SELECT
+                            tca.id
+                        FROM
+                            tt_course_appointment AS tca,
+                            tt_score AS ts
+                        WHERE
+                            tca.status = '1' and
+                            tca.course_id = ts.course_id
+                          AND tca.user_id = ts.user_id
+                    )
+            ) AS ts
+                LEFT JOIN tt_user AS tu ON ts.user_id = tu.id
+                LEFT JOIN tt_course AS tc ON ts.course_id = tc.id
+            order by ts.create_time desc
+    </select>
+</mapper>

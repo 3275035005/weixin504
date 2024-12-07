@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.teaching.mapper.TtCourseAppointmentMapper">
+    <update id="cancelAppointmentCourse">
+        update tt_course_appointment set status= '2'
+        <where>
+            <if test="userId != null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+            <if test="courseId != null and courseId != ''">
+                AND course_id = #{courseId}
+            </if>
+        </where>
+    </update>
+
+    <select id="pageQuery" resultType="com.cn.teaching.entity.TtCourseAppointment">
+        select
+        tca.*, tu.name AS userName, tc.title AS courseName
+        from tt_course_appointment AS tca
+        left join tt_user AS tu on tca.user_id = tu.id
+        left join tt_course AS tc on tca.course_id = tc.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND tca.user_id = #{userId}
+            </if>
+            <if test="courseId != null and courseId != ''">
+                AND tca.course_id = #{courseId}
+            </if>
+        </where>
+        order by tca.create_time desc
+    </select>
+    <select id="getCourseAppointmentInfo" resultType="com.cn.teaching.entity.TtCourseAppointment">
+        select
+        tca.*, tu.name AS userName, tc.title AS courseName
+        from tt_course_appointment AS tca
+        left join tt_user AS tu on tca.user_id = tu.id
+        left join tt_course AS tc on tca.course_id = tc.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND tca.user_id = #{userId}
+            </if>
+            <if test="status != null and status != ''">
+                AND tca.status = #{status}
+            </if>
+        </where>
+        order by tca.create_time desc
+    </select>
+</mapper>

@@ -1,0 +1,35 @@
+<!-- form -->
+<view class="page_form" style="margin-top: 16rpx; margin-bottom: 32rpx;">
+
+  <!-- item -->
+  <view class="page_form__item flex">
+    <view class="page_form__title">理由</view>
+    <view class="page_form__content">
+      <textarea type="text"  placeholder="请输入理由" class="page_form__input" model:value="{{reason}}" />
+    </view>
+  </view>
+  <!-- item -->
+  <view class="page_form__item flex">
+    <view class="page_form__title">开始时间</view>
+    <view class="page_form__content">
+      <picker mode="date" value="{{startTime}}" bindchange="startTimeChange">
+					{{startTime}}
+				</picker>
+    </view>
+  </view>
+  <view class="page_form__item flex">
+    <view class="page_form__title">截止时间</view>
+    <view class="page_form__content">
+      <picker mode="date" value="{{endTime}}" bindchange="endTimeChange">
+					{{endTime}}
+				</picker>
+    </view>
+  </view>
+</view>
+<!-- form -->
+
+<!-- button -->
+<view class="account_button">
+  <button class="page_button" style="width: 686rpx;" bindtap="updateInfo" >提交</button>
+</view>
+<!-- button -->
